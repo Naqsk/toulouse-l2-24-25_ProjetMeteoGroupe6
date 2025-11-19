@@ -1,7 +1,10 @@
 #!/bin/sh
 
 #vérification nombre de paramètres
-if [ $# -ne 1 ]
+if [ $# -eq 0 ]
+then
+    ville="Toulouse"
+elif [ $# -ne 1 ]
 then
     echo "Usage : ./Extracteur_Meteo.sh <Ville>"
     exit 1
