@@ -21,7 +21,7 @@ fi
 tempact=$(curl -s wttr.in/$ville?format="%t")
 if [ $? -ne 0 ]
 then
-    echo "$(date +"%Y-%m-%d %H:%M:%S") - Erreur de connexion à wttr.in pour $vi>
+    echo "$(date +"%Y-%m-%d %H:%M:%S") - Erreur de connexion à wttr.in pour $ville" >> meteo_error.log
     exit 1
 fi
 
@@ -32,3 +32,10 @@ fi
 
 #récupération de la température du lendemain
 templen=$(head -n 103 local.txt | tail -n 1 | grep -oE "\-*[0-9]*")°C
+
+
+#V1.4 formatage et ecriture dans meteo.txt
+date_ajd=$(date +"%Y-%m-%d")
+heure_ajd=$(date +"%H:%M")
+
+echo "$date_ajd - $heure_ajd - $ville : $tempact - $templen" >> meteo.txt
