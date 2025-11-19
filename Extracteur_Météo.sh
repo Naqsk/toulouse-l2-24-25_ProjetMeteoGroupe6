@@ -42,3 +42,7 @@ date_ajd=$(date +"%Y-%m-%d")
 heure_ajd=$(date +"%H:%M")
 
 echo "$date_ajd - $heure_ajd - $ville : $tempact - $templen" >> meteo.txt
+
+#gestion de l'historique
+history_file="meteo_$(date +'%Y%m%d').txt"
+echo "$date_ajd - $heure_ajd - $ville : $tempact - $templen" >> "$history_file"
