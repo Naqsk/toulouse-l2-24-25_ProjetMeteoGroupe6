@@ -41,8 +41,27 @@ templen=$(head -n 103 local.txt | tail -n 1 | grep -oE "\-*[0-9]*")°C
 date_ajd=$(date +"%Y-%m-%d")
 heure_ajd=$(date +"%H:%M")
 
-echo "$date_ajd - $heure_ajd - $ville : $tempact - $templen" >> meteo.txt
+#récupération de la vitesse du vent
+vent=$(curl -s wttr.in/$ville?format="%w")
+if [ $? -ne 0 ]
+then
+    echo "$(date +"%Y-%m-%d %H:%M:%S") - Erreur de connexion à wttr.in pour $ville lors de la récupération de la vitesse du vent" >> meteo_error.log
+    exit 1
+fi
+
+#récupération du taux d'humidité
+humidite=$(curl -s wttr.in/$ville?format="%h")
+if [ $? -ne 0 ]
+then
+    echo "$(date +"%Y-%m-%d %H:%M:%S") - Erreur de connexion à wttr.in pour $ville lors de la récupération de l'humidité" >> meteo_error.log
+    exit 1
+fi
+
+#récuperation de la visibilite
+visibilite=$(head -n 17 local.txt | tail -n 1 | grep -oE "[0-9]*")
+
+echo "$date_ajd - $heure_ajd - $ville : Température Actuelle=$tempact, Température Lendemain=$templen, Vent=$vent, Humidité=$humidite, Visibilité=$visibilite" >> meteo.txt
 
 #gestion de l'historique
 history_file="meteo_$(date +'%Y%m%d').txt"
-echo "$date_ajd - $heure_ajd - $ville : $tempact - $templen" >> "$history_file"
+echo "$date_ajd - $heure_ajd - $ville : Température Actuelle=$tempact, Température Lendemain=$templen, Vent=$vent, Humidité=$humidite, Visibilité=$visibilite" >> "$history_file"
