@@ -65,3 +65,16 @@ echo "$date_ajd - $heure_ajd - $ville : Température Actuelle=$tempact, Tempéra
 #gestion de l'historique
 history_file="meteo_$(date +'%Y%m%d').txt"
 echo "$date_ajd - $heure_ajd - $ville : Température Actuelle=$tempact, Température Lendemain=$templen, Vent=$vent, Humidité=$humidite, Visibilité=$visibilite" >> "$history_file"
+
+# Variante 2 : Option JSON 
+json_file="meteo_$(date +'%Y%m%d').json"
+echo "{
+  \"date\": \"$date_ajd\",
+  \"heure\": \"$heure_ajd\",
+  \"ville\": \"$ville\",
+  \"temperature_actuelle\": \"$tempact\",
+  \"temperature_demain\": \"$templen\",
+  \"vent\": \"$vent\",
+  \"humidite\": \"$humidite\",
+  \"visibilite\": \"$visibilite\"
+}" > "$json_file"
